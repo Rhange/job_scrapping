@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		Remote Scrapper
+	</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		a {
+			text-decoration: none;
+			font-size: 20px;
+		}
+
+		body,
+		html {
+			padding-top: 30px;
+			font-family: Arial, Helvetica, sans-serif;
+			width: 100%;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.header {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 50px;
+		}
+
+    .header .header_result {
+      color: #ff4757;
+    }
+
+		button {
+			all: unset;
+			color: white;
+			border-radius: 5px;
+			font-size: 20px;
+			padding: 10px 20px;
+			margin: 15px 0px;
+		}
+
+		.header .header_export {
+			margin-top: 20px;
+			background-color: #20bf6b;
+		}
+
+		.header .header_goBack {
+			background-color: #1e272e;
+		}
+
+		.container .container_apply {
+			background-color: #8854d0;
+		}
+
+		.container {
+			width: 100%;
+			height: 100vh;
+			border-radius: 5px;
+			padding: 50px;
+		}
+
+		.container .container_job {
+			margin: 50px 0px;
+		}
+
+		.container .container_company {
+			opacity: 0.7;
+		}
+
+		.container a {
+			font-weight: 700;
+		}
+
+		.container hr {
+			opacity: 0.3;
+		}
+
+    .container .container_box {
+      display: flex;
+      align-items: center;
+    }
+
+    .container img {
+      width: 110px;
+      height: 60px;
+      margin-top: 10px;
+      margin-left: 10px;
+    }
+	</style>
+</head>
+
+<body>
+	<header class="header">
+		<h1>Remote Jobs</h1>
+		{% if error != "" %}
+		<h2 style="color:red;">{{error}}</h2>
+    <a href="/"><button class="header_goBack">⬅ Go back</button></a>
+		{% else %}
+		<h2><span class="header_result">{{resultsNumber}} {{searchingBy}}</span> jobs found.</h2>
+		<a href="/export?term={{searchingBy}}"><button class="header_export">Export to CSV</button></a>
+    <a href="/"><button class="header_goBack">⬅ Go back</button></a>
+    {% endif %}
+	</header>
+	<main>
+		<div class="container">
+      {% if error == "" %}
+      {% for job in jobs %}
+      <div class="container_job">
+        <h2 class="container_title">{{job.title}}</h2>
+        <h3 class="container_company">{{job.company}}</h3>
+        <div class="container_box">
+        <a href="{{job.link}}" target="_blank"><button class="container_apply">Apply </button></a>
+        <img src="{{job.img}}"/>
+        </div>
+      </div>
+        <hr/>
+      {% endfor %}
+      {% endif %} 
+    </div>
+  </main>
+</body>
+
+</html>
